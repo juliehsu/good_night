@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 	  post '/clock_in', to: 'sleep_records#clock_in'
 	  get '/my_records', to: 'sleep_records#index'
 	  get '/records_im_following', to: 'sleep_records#following_records_during_last_week'
+    get '/all_records', to: 'sleep_records#all_records'
 
 	  post '/users/:id/follow', to: 'users#follow'
 	  post '/users/:id/unfollow', to: 'users#unfollow'

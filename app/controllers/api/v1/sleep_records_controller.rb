@@ -17,8 +17,18 @@ class Api::V1::SleepRecordsController < ::Api::ApplicationController
   end
 
   def following_records_during_last_week
+    # TODO : should config prev_week_duration definition
+    # TODO : should handle timezone
+
     following_user_id = current_user.followings.map(&:followed_id)
     sleep_records = SleepRecord.where(user_id: following_user_id).where("created_at >= ?", 1.week.ago)
     render json: sleep_records.sort_by(&:duration).reverse
+  end
+
+  def all_records
+    # TODO : should set access constraint
+
+    sleep_records = SleepRecord.order(created_at: :asc)
+    render json: sleep_records
   end
 end
