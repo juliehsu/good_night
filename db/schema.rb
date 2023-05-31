@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_05_30_135345) do
+ActiveRecord::Schema.define(version: 2023_05_31_120946) do
 
-  create_table "relations", force: :cascade do |t|
+  create_table "following_records", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "followed_id", null: false
     t.datetime "created_at", null: false
@@ -20,7 +20,6 @@ ActiveRecord::Schema.define(version: 2023_05_30_135345) do
   end
 
   create_table "sleep_records", force: :cascade do |t|
-    t.date "shift_date", null: false
     t.integer "user_id", null: false
     t.boolean "is_finished", default: false
     t.datetime "created_at", null: false
