@@ -5,6 +5,8 @@ class Api::V1::SleepRecordsController < ::Api::ApplicationController
   end
 
   def clock_in
+    # need confirm: how to handle the situation which user forgot clock in while wake up
+
     sleep_record = current_user.last_active_sleep_record
 
     if sleep_record.present?
@@ -12,9 +14,12 @@ class Api::V1::SleepRecordsController < ::Api::ApplicationController
     else
       sleep_record = ::SleepRecord.new(user_id: current_user.id)
     end
-    sleep_record.save
 
-    render json: sleep_record
+    if sleep_record.save
+      render json: sleep_record
+    else
+      render json: { result: 'fail', message: 'clock in fail.'}
+    end
   end
 
   def following_records_during_last_week
@@ -23,7 +28,12 @@ class Api::V1::SleepRecordsController < ::Api::ApplicationController
     dur_end = ::SleepRecord::DUR_END
 
     sleep_records = ::SleepRecord.filter_by_dur(dur_start, dur_end).where(user_id: following_user_id)
-    render json: sleep_records.sort_by(&:duration).reverse
+
+    if sleep_records
+      render json: sleep_records.sort_by(&:duration).reverse
+    else
+      render json: { result: 'fail', message: 'list following records fail.'}
+    end
   end
 
   def all_records
