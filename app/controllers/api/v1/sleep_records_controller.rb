@@ -5,11 +5,12 @@ class Api::V1::SleepRecordsController < ::Api::ApplicationController
   end
 
   def clock_in
-    sleep_record = SleepRecord.last_active_record(current_user.id).last
+    sleep_record = current_user.last_active_sleep_record
+
     if sleep_record.present?
       sleep_record.is_finished = true
     else
-      sleep_record = SleepRecord.new(user_id: current_user.id)
+      sleep_record = ::SleepRecord.new(user_id: current_user.id)
     end
     sleep_record.save
 
@@ -17,11 +18,11 @@ class Api::V1::SleepRecordsController < ::Api::ApplicationController
   end
 
   def following_records_during_last_week
-    # TODO : should config prev_week_duration definition
-    # TODO : should handle timezone
-
     following_user_id = current_user.followings.map(&:followed_id)
-    sleep_records = SleepRecord.where(user_id: following_user_id).where("created_at >= ?", 1.week.ago)
+    dur_start = ::SleepRecord::DUR_START
+    dur_end = ::SleepRecord::DUR_END
+
+    sleep_records = ::SleepRecord.filter_by_dur(dur_start, dur_end).where(user_id: following_user_id)
     render json: sleep_records.sort_by(&:duration).reverse
   end
 
