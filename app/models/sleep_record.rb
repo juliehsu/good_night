@@ -1,7 +1,4 @@
 class SleepRecord < ApplicationRecord
-	# TODO : should add index in table
-	# TODO : should add uniq constraint
-
 	#==================================================================================
 	# use following text to setup duration start/end in configurations:
 	# current_time => 'Time.now'

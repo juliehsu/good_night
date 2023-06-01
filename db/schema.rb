@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_01_055209) do
+ActiveRecord::Schema.define(version: 2023_06_01_120549) do
 
   create_table "configurations", force: :cascade do |t|
     t.string "key"
@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 2023_06_01_055209) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_configurations_on_key", unique: true
   end
 
   create_table "following_records", force: :cascade do |t|
@@ -25,6 +26,7 @@ ActiveRecord::Schema.define(version: 2023_06_01_055209) do
     t.integer "followed_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_following_records_on_user_id"
   end
 
   create_table "sleep_records", force: :cascade do |t|
@@ -32,12 +34,14 @@ ActiveRecord::Schema.define(version: 2023_06_01_055209) do
     t.boolean "is_finished", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_sleep_records_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_users_on_name", unique: true
   end
 
 end

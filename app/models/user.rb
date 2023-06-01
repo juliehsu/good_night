@@ -1,7 +1,4 @@
 class User < ApplicationRecord
-	# TODO : should add index in table
-	# TODO : should add uniq constraint
-
   validates :name, presence: true, uniqueness: {case_sensitive: false}
 
   has_many :sleep_records
