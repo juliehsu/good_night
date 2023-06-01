@@ -12,7 +12,7 @@ class SleepRecord < ApplicationRecord
   DUR_END = eval(::Configuration.find_by_key('C_prev_dur_end_definition').value)
   
   belongs_to :user
-  scope :filter_by_dur, -> (s, e) {where("created_at BETWEEN ? AND ? ", s, e)}
+  scope :filter_by_created_dur, -> (s, e) {where("created_at BETWEEN ? AND ? ", s, e)}
 
   def duration
   	updated_at - created_at

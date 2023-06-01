@@ -27,7 +27,7 @@ class Api::V1::SleepRecordsController < ::Api::ApplicationController
     dur_start = ::SleepRecord::DUR_START
     dur_end = ::SleepRecord::DUR_END
 
-    sleep_records = ::SleepRecord.filter_by_dur(dur_start, dur_end).where(user_id: following_user_id)
+    sleep_records = ::SleepRecord.filter_by_created_dur(dur_start, dur_end).where(user_id: following_user_id)
 
     if sleep_records
       render json: sleep_records.sort_by(&:duration).reverse
