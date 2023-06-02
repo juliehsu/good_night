@@ -8,8 +8,8 @@ class SleepRecord < ApplicationRecord
 	# the nearest Sun. => Date.today.prev_occurring(:sunday)
 	# the nearest Sat. => Date.today.prev_occurring(:saturday)
 	#==================================================================================
-  DUR_START = eval(::Configuration.find_by_key('C_prev_dur_start_definition').value)
-  DUR_END = eval(::Configuration.find_by_key('C_prev_dur_end_definition').value)
+  DUR_START = eval(::Configuration.find_by_key('C_prev_dur_start_definition')&.value || '1.week.ago')
+  DUR_END = eval(::Configuration.find_by_key('C_prev_dur_end_definition')&.value || 'Time.now')
   
   belongs_to :user
   scope :filter_by_created_dur, -> (s, e) {where("created_at BETWEEN ? AND ? ", s, e)}
