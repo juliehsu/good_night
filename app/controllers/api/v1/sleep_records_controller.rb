@@ -24,8 +24,8 @@ class Api::V1::SleepRecordsController < ::Api::ApplicationController
 
   def following_records_during_last_week
     following_user_id = current_user.followings.map(&:followed_id)
-    dur_start = ::SleepRecord::DUR_START
-    dur_end = ::SleepRecord::DUR_END
+    dur_start = eval(::Configuration.find_by_key('C_prev_dur_start_definition')&.value || '1.week.ago')
+    dur_end = eval(::Configuration.find_by_key('C_prev_dur_end_definition')&.value || 'Time.now')
 
     sleep_records = ::SleepRecord.filter_by_created_dur(dur_start, dur_end).where(user_id: following_user_id)
 
